@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../common/jquery-3.7.1.min.js"></script>
+    <script src="../common/jquery.terminal.min.js"></script>
+    <link href="../common/jquery.terminal.min.css" rel="stylesheet"/>
+    <style>
+        body { margin: 0; background: black; }
+        .terminal { height: 100vh; }
+    </style>
+</head>
+<body>
+
+<script>
+    // 1. Create the terminal and attach it to 'window' so it's GLOBAL
+window.term = $('body').terminal(async function(command) {
+    if (command !== '') {
+        try {
+            // If the command contains 'await', we wrap it in a self-executing async function
+            let result;
+            if (command.includes('await')) {
+                result = await eval(`(async () => { return ${command}; })()`);
+            } else {
+                result = window.eval(command);
+            }
+
+            // Only echo if the result isn't the terminal itself or undefined
+            if (result !== undefined && result !== window.term) {
+                this.echo(new String(result));
+            }
+        } catch(e) {
+            this.error(new String(e));
+        }
+    }
+}, {
+    greetings: '[[b;cyan;]SYSTEM READY.]\nTry: let j = await term.read("Enter number: ");'
+});
+
+    // 2. The Interactive Program
+    async function game() {
+        await term.echo("Starting system...");
+        let fav = await term.read("What is your favorite food? ");
+        term.echo("Yum! I love " + fav + " too.");
+    }
+
+    game();
+</script>
+</body>
+</html>
