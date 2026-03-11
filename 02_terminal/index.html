@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Load jQuery library for DOM manipulation and AJAX -->
     <script src="../common/jquery-3.7.1.min.js"></script>
+    <!-- Load jQuery Terminal plugin for creating interactive terminal interface -->
     <script src="../common/jquery.terminal.min.js"></script>
+    <!-- Load CSS styles for the terminal appearance -->
     <link href="../common/jquery.terminal.min.css" rel="stylesheet"/>
     <style>
+        /* Set terminal size to full-screen height with black background */
         body { margin: 0; background: black; }
         .terminal { height: 100vh; }
     </style>
 </head>
 <body>
 
-<script src="script.js"></script>
+<!-- User script that will make use of terminal-->
+<script type="module" src="script.js"></script>
 </body>
 </html>

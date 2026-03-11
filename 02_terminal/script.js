@@ -1,32 +1,30 @@
-// 1. Create the terminal and attach it to 'window' so it's GLOBAL
-window.term = $('body').terminal(async function(command) {
-    if (command !== '') {
-        try {
-            // If the command contains 'await', we wrap it in a self-executing async function
-            let result;
-            if (command.includes('await')) {
-                result = await eval(`(async () => { return ${command}; })()`);
-            } else {
-                result = window.eval(command);
-            }
+// Import the terminal initialization function
+import { initTerminal } from '../common/g_term.js';
 
-            // Only echo if the result isn't the terminal itself or undefined
-            if (result !== undefined && result !== window.term) {
-                this.echo(new String(result));
-            }
-        } catch(e) {
-            this.error(new String(e));
-        }
-    }
-}, {
-    greetings: '[[b;cyan;]SYSTEM READY.]\nTry: let j = await term.read("Enter number: ");'
-});
+// Initialize the terminal and assign it to window.term for global access
+window.term = initTerminal();
 
-// 2. The Interactive Program
+// Define a game function that uses the terminal to interact with the user
 async function game() {
-    await term.echo("Starting system...");
+    // Print to terminal
+    term.echo("Starting system...");
+
+    // Create 'fav' variable and set it to value returned from user via term.read (await read completion)
     let fav = await term.read("What is your favorite food? ");
+
+    // Print out message
     term.echo("Yum! I love " + fav + " too.");
+
+    // Show user how to interact with terminal directly
+    term.echo("\n");
+    term.echo("By the way, you can also interact with the terminal directly by typing commands.");
+    term.echo("For example, try:\n");
+    term.echo("     for (let i=0;i<10;i++){ term.echo(i) };\n");
+    term.echo(" or:\n");
+    term.echo("     var g;");
+    term.echo('     g=await term.read("Enter number: ");');
+    term.echo('     term.echo("You entered: " + g);\n\n');
 }
 
+// Launch game (in terminal) immediately
 game();
