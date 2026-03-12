@@ -3,12 +3,16 @@ export function initTerminal() {
     return $('body').terminal(async function(command) {
         if (command !== '') {
             try {
-                // If the command contains 'await', we wrap it in a self-executing async function
+                // Pre-process: Replace 'let ' and 'const ' with 'var ' 
+                // This forces variables to stick to the global window scope
+                let processedCommand = command.replace(/^\s*(let|const)\s+/g, 'var ');
+
                 let result;
-                if (command.includes('await')) {
-                    result = await eval(`(async () => { return ${command}; })()`);
+                if (processedCommand.includes('await')) {
+                    // We use window.eval to ensure we are in the outermost scope
+                    result = await window.eval(`(async () => { return ${processedCommand}; })()`);
                 } else {
-                    result = window.eval(command);
+                    result = window.eval(processedCommand);
                 }
 
                 // Only echo if the result isn't the terminal itself or undefined
@@ -20,6 +24,9 @@ export function initTerminal() {
             }
         }
     }, {
-        greetings: '[[b;cyan;]SYSTEM READY.]\n'
+        greetings: '[[b;cyan;]SYSTEM READY.]\n',
+        checkType: false,
+        device: 'mobile',
+        scrollOnEcho: true
     });
 }

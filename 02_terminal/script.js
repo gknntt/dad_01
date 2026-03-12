@@ -21,7 +21,7 @@ async function game() {
     term.echo("For example, try:\n");
     term.echo("     for (let i=0;i<10;i++){ term.echo(i) };\n");
     term.echo(" or:\n");
-    term.echo("     var g;");
+    term.echo("     let g;");
     term.echo('     g=await term.read("Enter number: ");');
     term.echo('     term.echo("You entered: " + g);\n\n');
 }
