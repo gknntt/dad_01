@@ -5,11 +5,11 @@ function setup() {
 }
 
 function draw() {
-  // Try commenting out the line below to see a "trail"!
+  // Try commenting out the line below to see a "traxcil"!
   background(220); 
   
   // Draw a circle at the mouse position
-  fill(255, 0, 100); // Pinkish-red color
+  fill(75, 0, 200); // Pinkish-red color
   noStroke();
-  ellipse(mouseX, mouseY, 50, 50);
+  ellipse(mouseX, mouseY, 5, 30);
 }
